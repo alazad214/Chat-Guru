@@ -23,7 +23,7 @@ class AuthController extends GetxController {
       return;
     }
     try {
-      await auth
+   await auth
           .createUserWithEmailAndPassword(
               email: email.value, password: password.value)
           .then((value) {
@@ -38,10 +38,9 @@ class AuthController extends GetxController {
         "User name": email.value.replaceAll("@gmail.com", ""),
         "ID": id,
       };
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(id)
-          .set(userInfo);
+   await FirebaseFirestore.instance
+       .collection("users")
+       .add(userInfo);
 
       await Sharedprefehelper().saveUserID(id);
       await Sharedprefehelper().saveUserName(name.value);
