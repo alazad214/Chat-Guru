@@ -41,6 +41,7 @@ dependencies:
   firebase_storage:
   cloud_firestore:
   firebase_messaging:
+  fluttertoast: ^8.2.6
 
 
 dev_dependencies:

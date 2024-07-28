@@ -1,11 +1,14 @@
+import 'package:chatguru/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../widgets/custom_font1.dart';
 import '../widgets/custom_textfield.dart';
 import 'login.dart';
 
 class Register extends StatelessWidget {
-  const Register({super.key});
+  Register({super.key});
+  final controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -45,28 +48,43 @@ class Register extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const CustomTextfield(
+                            CustomTextfield(
                               hinttext: "Enter name",
                               icon: Icons.drive_file_rename_outline_sharp,
+                              onchanged: (name) {
+                                controller.name.value = name;
+                              },
                             ),
-                            const CustomTextfield(
+                            CustomTextfield(
                               hinttext: "Enter email",
+                              onchanged: (email) {
+                                controller.email.value = email;
+                              },
                             ),
-                            const CustomTextfield(
+                            CustomTextfield(
                               hinttext: "Enter password",
                               icon: Icons.remove_red_eye,
                               issecured: true,
+                              onchanged: (password) {
+                                controller.password.value = password;
+                              },
                             ),
-                            const CustomTextfield(
+                            CustomTextfield(
                               hinttext: "Confirm password",
                               icon: Icons.remove_red_eye,
                               issecured: true,
+                              onchanged: (confirmpassword) {
+                                controller.confirmpassword.value =
+                                    confirmpassword;
+                              },
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 30),
                               alignment: Alignment.center,
                               child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  controller.Register();
+                                },
                                 child: Container(
                                     width: 150,
                                     alignment: Alignment.center,
