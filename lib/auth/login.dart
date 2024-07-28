@@ -1,13 +1,16 @@
-
 import 'package:chatguru/auth/register.dart';
+import 'package:chatguru/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../pages/home.dart';
 import '../widgets/custom_font1.dart';
 import '../widgets/custom_textfield.dart';
 
 class Login extends StatelessWidget {
-  const Login({super.key});
+  Login({super.key});
+
+  final controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -47,23 +50,26 @@ class Login extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const CustomTextfield(
+                            CustomTextfield(
                               hinttext: "Enter email",
+                              onchanged: (email) {
+                                controller.email.value = email;
+                              },
                             ),
-                            const CustomTextfield(
+                            CustomTextfield(
                               hinttext: "Enter password",
                               icon: Icons.remove_red_eye,
                               issecured: true,
+                              onchanged: (password) {
+                                controller.password.value = password;
+                              },
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 30),
                               alignment: Alignment.center,
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Home()));
+                                  Get.offAll(() => Home());
                                 },
                                 child: Container(
                                     width: 150,
@@ -100,7 +106,7 @@ class Login extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>  Register()));
+                                  builder: (context) => Register()));
                         },
                         child: const Text(
                           "Register",
