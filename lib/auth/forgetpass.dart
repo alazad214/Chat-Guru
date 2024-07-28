@@ -1,17 +1,11 @@
-import 'package:chatguru/auth/forgetpass.dart';
 import 'package:chatguru/auth/register.dart';
-import 'package:chatguru/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../pages/home.dart';
 import '../widgets/custom_font1.dart';
 import '../widgets/custom_textfield.dart';
 
-class Login extends StatelessWidget {
-  Login({super.key});
-
-  final controller = Get.put(AuthController());
+class Forgetpass extends StatelessWidget {
+  const Forgetpass({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +18,7 @@ class Login extends StatelessWidget {
               decoration: const BoxDecoration(
                   color: Colors.teal,
                   borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(50.0))),
+                  BorderRadius.vertical(bottom: Radius.circular(50.0))),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 60.0),
@@ -32,10 +26,10 @@ class Login extends StatelessWidget {
                 children: [
                   const Center(
                       child: CustomFont1(
-                    text: "LogIn",
-                  )),
+                        text: "Password recovery",
+                      )),
                   const CustomFont1(
-                    text: "Login your account!",
+                    text: "Enter your email and send email to your account",
                     fontsize: 16.0,
                     color: Colors.white70,
                     fontweight: FontWeight.normal,
@@ -52,25 +46,18 @@ class Login extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CustomTextfield(
-                              hinttext: "Enter email",
+                              hinttext: "Enter recovery email",
                               onchanged: (email) {
-                                controller.email.value = email;
+
                               },
                             ),
-                            CustomTextfield(
-                              hinttext: "Enter password",
-                              icon: Icons.remove_red_eye,
-                              issecured: true,
-                              onchanged: (password) {
-                                controller.password.value = password;
-                              },
-                            ),
+
                             Container(
-                              margin: const EdgeInsets.only(top: 30, bottom: 20),
+                              margin: const EdgeInsets.only(top: 30),
                               alignment: Alignment.center,
                               child: InkWell(
                                 onTap: () {
-                                  Get.offAll(() => Home());
+
                                 },
                                 child: Container(
                                     width: 150,
@@ -82,27 +69,12 @@ class Login extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: const Text(
-                                      "LOG IN",
+                                      "SEND EMAIL",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                     )),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: (){
-                                Get.to(()=>Forgetpass());
-                              },
-                              child: const Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  "Forget password",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
                               ),
                             ),
                           ],

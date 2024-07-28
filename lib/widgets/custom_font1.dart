@@ -12,6 +12,7 @@ class CustomFont1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text!,
+      textAlign: TextAlign.center,
       style: TextStyle(
           color: color ?? Colors.white,
           fontWeight: fontweight ?? FontWeight.bold,
