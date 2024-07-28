@@ -1,12 +1,15 @@
 import 'package:chatguru/auth/register.dart';
+import 'package:chatguru/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../widgets/custom_font1.dart';
 import '../widgets/custom_textfield.dart';
 
 class Forgetpass extends StatelessWidget {
-  const Forgetpass({super.key});
-
+   Forgetpass({super.key});
+  final controller=Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +21,7 @@ class Forgetpass extends StatelessWidget {
               decoration: const BoxDecoration(
                   color: Colors.teal,
                   borderRadius:
-                  BorderRadius.vertical(bottom: Radius.circular(50.0))),
+                      BorderRadius.vertical(bottom: Radius.circular(50.0))),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 60.0),
@@ -26,8 +29,8 @@ class Forgetpass extends StatelessWidget {
                 children: [
                   const Center(
                       child: CustomFont1(
-                        text: "Password recovery",
-                      )),
+                    text: "Password recovery",
+                  )),
                   const CustomFont1(
                     text: "Enter your email and send email to your account",
                     fontsize: 16.0,
@@ -48,16 +51,15 @@ class Forgetpass extends StatelessWidget {
                             CustomTextfield(
                               hinttext: "Enter recovery email",
                               onchanged: (email) {
-
+                                controller.email.value=email;
                               },
                             ),
-
                             Container(
                               margin: const EdgeInsets.only(top: 30),
                               alignment: Alignment.center,
                               child: InkWell(
                                 onTap: () {
-
+                                  controller.forgetPassword();
                                 },
                                 child: Container(
                                     width: 150,

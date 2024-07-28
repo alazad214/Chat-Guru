@@ -76,9 +76,21 @@ class AuthController extends GetxController {
     try {
       await auth.signOut().then((value) {
         Get.offAll(Login());
+        Fluttertoast.showToast(msg: "You're Logout of your account");
       });
-    } on FirebaseAuthException catch (e) {
-      Fluttertoast.showToast(msg: "You're Logout of your account");
+    } on FirebaseAuthException catch (error) {
+      Fluttertoast.showToast(msg: "Something Wrong:$error");
+    }
+  }
+
+//FORGET PASSWORD FUNCTIONALITY----->
+  forgetPassword() async {
+    try {
+      await auth.sendPasswordResetEmail(email: email.value);
+      Fluttertoast.showToast(
+          msg: "send email and check your email and set a new password");
+    } on FirebaseAuthException catch (error) {
+      Fluttertoast.showToast(msg: "Something Wrong:$error");
     }
   }
 }
