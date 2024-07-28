@@ -1,5 +1,6 @@
 import 'package:chatguru/auth/login.dart';
 import 'package:chatguru/pages/home.dart';
+import 'package:chatguru/services/sharedprefeHelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,7 +17,7 @@ class AuthController extends GetxController {
   final auth = FirebaseAuth.instance;
   final currentuser = FirebaseAuth.instance.currentUser;
 
-  Register() async {
+  Future<void> Register() async {
     if (password != confirmpassword) {
       Fluttertoast.showToast(msg: "Password doesn't matched ");
       return;
@@ -27,7 +28,7 @@ class AuthController extends GetxController {
               email: email.value, password: password.value)
           .then((value) {
         if (value.user != null) {
-          Get.offAll(() =>  Home());
+          Get.offAll(() => Home());
           Fluttertoast.showToast(msg: "Registation Succesfully");
         }
       });
@@ -41,10 +42,17 @@ class AuthController extends GetxController {
           .collection("users")
           .doc(id)
           .set(userInfo);
+
+      await Sharedprefehelper().saveUserID(id);
+      await Sharedprefehelper().saveUserName(name.value);
+      await Sharedprefehelper().saveUserEmail(email.value);
+      await Sharedprefehelper().saveUserDisplayName(email.value);
     } on FirebaseAuthException catch (error) {
       Fluttertoast.showToast(msg: error.toString());
     }
   }
+
+  //LOG IN FUNCTIONALITY----->
 
   login() async {
     try {
@@ -53,7 +61,7 @@ class AuthController extends GetxController {
               email: email.value, password: password.value)
           .then((value) {
         if (value.user != null) {
-          Get.offAll( Home());
+          Get.offAll(Home());
           Fluttertoast.showToast(msg: "Login Succesfully");
         }
       });
@@ -62,7 +70,7 @@ class AuthController extends GetxController {
     }
   }
 
-
+  //LOG OUT FUNCTIONALITY----->
   Future signOut() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
@@ -73,7 +81,4 @@ class AuthController extends GetxController {
       Fluttertoast.showToast(msg: "You're Logout of your account");
     }
   }
-
-
-
 }
