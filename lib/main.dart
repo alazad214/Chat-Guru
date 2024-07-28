@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Chat App',
       debugShowCheckedModeBanner: false,
-      home: user == null ? Login() : Home(),
+      home: user == null ? Login() :  Home(),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:chatguru/auth/login.dart';
 import 'package:chatguru/pages/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,7 +27,7 @@ class AuthController extends GetxController {
               email: email.value, password: password.value)
           .then((value) {
         if (value.user != null) {
-          Get.offAll(() => const Home());
+          Get.offAll(() =>  Home());
           Fluttertoast.showToast(msg: "Registation Succesfully");
         }
       });
@@ -52,7 +53,7 @@ class AuthController extends GetxController {
               email: email.value, password: password.value)
           .then((value) {
         if (value.user != null) {
-          Get.offAll(const Home());
+          Get.offAll( Home());
           Fluttertoast.showToast(msg: "Login Succesfully");
         }
       });
@@ -60,4 +61,19 @@ class AuthController extends GetxController {
       Fluttertoast.showToast(msg: error.toString());
     }
   }
+
+
+  Future signOut() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    try {
+      await auth.signOut().then((value) {
+        Get.offAll(Login());
+      });
+    } on FirebaseAuthException catch (e) {
+      Fluttertoast.showToast(msg: "You're Logout of your account");
+    }
+  }
+
+
+
 }

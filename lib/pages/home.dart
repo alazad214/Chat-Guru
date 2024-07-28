@@ -1,4 +1,4 @@
-
+import 'package:chatguru/controller/auth_controller.dart';
 import 'package:chatguru/pages/searchpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,8 @@ import '../widgets/custom_font1.dart';
 import '../widgets/custom_searchbar.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  Home({super.key});
+  final controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,36 +27,31 @@ class Home extends StatelessWidget {
           color: Colors.black,
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                showMenu(
-                  context: context,
-                  position: const RelativeRect.fromLTRB(
-                      100, 100, 0, 0), // Adjust position as needed
-                  items: [
-                    PopupMenuItem(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.to(() => const Searchpage());
-                        },
-                        child: const Text('SEARCH'),
-                      ),
-                    ),
-                    PopupMenuItem(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Handle action 2
-                        },
-                        child: const Text('LOG OUT'),
-                      ),
-                    ),
-                  ],
-                );
-              },
+          InkWell(
+            onTap: () {
+
+            },
+            child: PopupMenuButton(
               icon: const Icon(
                 Icons.more_vert,
                 color: Colors.white,
-              ))
+              ),
+              onSelected: (String value) {},
+              itemBuilder: (BuildContext context) {
+                return [
+                  PopupMenuItem(
+                      value: 'Option 1',
+                      onTap: () {controller.signOut();},
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("LOG OUT"),
+                        ],
+                      )),
+                ];
+              },
+            ),
+          )
         ],
       ),
       body: SafeArea(
