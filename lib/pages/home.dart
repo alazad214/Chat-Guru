@@ -1,5 +1,6 @@
 import 'package:chatguru/controller/auth_controller.dart';
 import 'package:chatguru/pages/searchpage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -72,7 +73,7 @@ class Home extends StatelessWidget {
                   children: [
                     CustomSearchBar(
                       ontap: () {
-                        Get.to(() => const Searchpage());
+                        Get.to(() =>  Searchpage());
                       },
                     ),
                     const SizedBox(

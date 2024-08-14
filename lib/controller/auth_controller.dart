@@ -3,7 +3,7 @@ import 'package:chatguru/pages/home.dart';
 import 'package:chatguru/services/sharedprefeHelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:get/get.dart';
 import 'package:random_string/random_string.dart';
 
@@ -19,7 +19,6 @@ class AuthController extends GetxController {
 
   Future<void> Register() async {
     if (password != confirmpassword) {
-      Fluttertoast.showToast(msg: "Password doesn't matched ");
       return;
     }
     try {
@@ -29,7 +28,7 @@ class AuthController extends GetxController {
           .then((value) {
         if (value.user != null) {
           Get.offAll(() => Home());
-          Fluttertoast.showToast(msg: "Registation Succesfully");
+
         }
       });
       Map<String, dynamic> userInfo = {
@@ -47,7 +46,7 @@ class AuthController extends GetxController {
       await Sharedprefehelper().saveUserEmail(email.value);
       await Sharedprefehelper().saveUserDisplayName(email.value);
     } on FirebaseAuthException catch (error) {
-      Fluttertoast.showToast(msg: error.toString());
+
     }
   }
 
@@ -61,11 +60,10 @@ class AuthController extends GetxController {
           .then((value) {
         if (value.user != null) {
           Get.offAll(Home());
-          Fluttertoast.showToast(msg: "Login Succesfully");
         }
       });
     } on FirebaseAuthException catch (error) {
-      Fluttertoast.showToast(msg: error.toString());
+
     }
   }
 
@@ -75,10 +73,10 @@ class AuthController extends GetxController {
     try {
       await auth.signOut().then((value) {
         Get.offAll(Login());
-        Fluttertoast.showToast(msg: "You're Logout of your account");
+
       });
     } on FirebaseAuthException catch (error) {
-      Fluttertoast.showToast(msg: "Something Wrong:$error");
+
     }
   }
 
@@ -86,10 +84,9 @@ class AuthController extends GetxController {
   forgetPassword() async {
     try {
       await auth.sendPasswordResetEmail(email: email.value);
-      Fluttertoast.showToast(
-          msg: "send email and check your email and set a new password");
+
     } on FirebaseAuthException catch (error) {
-      Fluttertoast.showToast(msg: "Something Wrong:$error");
+
     }
   }
 }
