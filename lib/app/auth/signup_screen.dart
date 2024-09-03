@@ -1,5 +1,7 @@
 import 'package:chatguru/app/auth/signin_screen.dart';
 import 'package:chatguru/controller/auth_controller.dart';
+import 'package:chatguru/utils/app_color.dart';
+import 'package:chatguru/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../style/textfiled_style.dart';
@@ -11,28 +13,33 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
           children: [
             Container(
-              height: 200.0,
-              decoration: const BoxDecoration(
-                  color: Colors.teal,
+              height: screenSize.height / 2.5,
+              decoration: BoxDecoration(
+                  color: AppColor.cerulean,
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.circular(50.0))),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 60.0),
+              padding: EdgeInsets.only(top: 100.0, right: 20.0, left: 20.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('SignUp', style: head2TextStyle()),
-                  Text('Create a new account!', style: head3TextStyle()),
+                  Text('Join the Chat',
+                      textAlign: TextAlign.center, style: head2TextStyle()),
+                  Text('Sign up to connect and communicate with ease.',
+                      textAlign: TextAlign.center, style: head3TextStyle()),
                   Container(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Material(
                       elevation: 8.0,
-                      color: Colors.white,
+                      color: AppColor.white,
                       borderRadius: BorderRadius.circular(10),
                       child: Container(
                         padding: const EdgeInsets.all(20),
@@ -46,6 +53,7 @@ class SignupScreen extends StatelessWidget {
                                 controller.name.value = name;
                               },
                             ),
+                            SizedBox(height: 15.0),
                             TextFormField(
                               decoration: appInputDecoretion('Email',
                                   Icons.drive_file_rename_outline_sharp),
@@ -53,6 +61,7 @@ class SignupScreen extends StatelessWidget {
                                 controller.email.value = email;
                               },
                             ),
+                            SizedBox(height: 15.0),
                             TextFormField(
                               decoration: appInputDecoretion(
                                   'Password', Icons.remove_red_eye),
@@ -61,6 +70,7 @@ class SignupScreen extends StatelessWidget {
                                 controller.password.value = password;
                               },
                             ),
+                            SizedBox(height: 15.0),
                             TextFormField(
                               decoration: appInputDecoretion(
                                   'Confirm password', Icons.remove_red_eye),
@@ -69,30 +79,11 @@ class SignupScreen extends StatelessWidget {
                                     confirmpassword;
                               },
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 30),
-                              alignment: Alignment.center,
-                              child: InkWell(
-                                onTap: () {
-                                  controller.register();
-                                },
-                                child: Container(
-                                    width: 150,
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.teal,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: const Text(
-                                      "SIGN UP",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              ),
+                            AppButton(
+                              text: "SIGN UP",
+                              ontap: () {
+                                controller.register();
+                              },
                             ),
                           ],
                         ),
@@ -113,10 +104,10 @@ class SignupScreen extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => SigninScreen()));
                         },
-                        child: const Text(
+                        child: Text(
                           "LogIn",
                           style: TextStyle(
-                              color: Colors.teal,
+                              color: AppColor.cerulean,
                               fontWeight: FontWeight.bold,
                               fontSize: 16),
                         ),

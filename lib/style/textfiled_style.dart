@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 InputDecoration appInputDecoretion(label, icon) {
   return InputDecoration(
     filled: true,
-    prefixIcon: Icon(icon ?? Icons.email_outlined),
+    suffixIcon: Icon(icon ?? Icons.email_outlined),
     label: Text(label ?? " "),
     enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14.0), borderSide: BorderSide.none),

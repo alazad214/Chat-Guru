@@ -5,6 +5,8 @@ import 'package:chatguru/style/textfiled_style.dart';
 import 'package:chatguru/style/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../utils/app_color.dart';
+import '../../widgets/app_button.dart';
 import '../home/home.dart';
 
 class SigninScreen extends StatelessWidget {
@@ -14,87 +16,70 @@ class SigninScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
           children: [
             Container(
-              height: 200.0,
-              decoration: const BoxDecoration(
-                  color: Colors.teal,
+              height: screenSize.height / 2.5,
+              decoration: BoxDecoration(
+                  color: AppColor.cerulean,
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.circular(50.0))),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 60.0),
+              padding:
+                  const EdgeInsets.only(top: 100.0, right: 20.0, left: 20.0),
               child: Column(
                 children: [
-                  Text('LogIn', style: head2TextStyle()),
-                  Text('Login your account!', style: head3TextStyle()),
+                  ///Log in title and description...
+                  Text('Let\'s Chat',
+                      textAlign: TextAlign.center, style: head2TextStyle()),
+                  Text('Sign in to start chatting and stay connected.',
+                      textAlign: TextAlign.center, style: head3TextStyle()),
+
+                  ///Auth Field...
                   Container(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Material(
                       elevation: 8.0,
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                       child: Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: EdgeInsets.all(20),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextFormField(
-                              onChanged: (email) {
-                                controller.email.value = email;
-                              },
+                              onChanged: (email) =>
+                                  controller.email.value = email,
                               decoration:
                                   appInputDecoretion('Email', Icons.email),
                             ),
                             SizedBox(height: 20.0),
                             TextFormField(
                               obscureText: true,
-                              onChanged: (password) {
-                                controller.password.value = password;
-                              },
+                              onChanged: (password) =>
+                                  controller.password.value = password,
                               decoration: appInputDecoretion(
                                   'Password', Icons.remove_red_eye),
                             ),
-                            SizedBox(height: 20.0),
-                            Container(
-                              margin:
-                                  const EdgeInsets.only(top: 30, bottom: 20),
-                              alignment: Alignment.center,
-                              child: InkWell(
-                                onTap: () {
-                                  Get.offAll(() => HomeScreen());
-                                },
-                                child: Container(
-                                    width: 150,
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.teal,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text("LOG IN",
-                                        style: head3TextStyle())),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.to(() => ForgetScreen());
+                            AppButton(
+                              text: "SIGN IN",
+                              ontap: () {
+                                Get.offAll(() => HomeScreen());
                               },
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text("Forget password",
-                                    style: head3TextStyle()),
-                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
                   ),
+                  InkWell(
+                    onTap: () => Get.to(() => ForgetScreen()),
+                    child: Text("Forget password", style: head1TextStyle()),
+                  ),
+                  SizedBox(height: 20.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -109,7 +94,13 @@ class SigninScreen extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => SignupScreen()));
                         },
-                        child: Text("Register", style: head3TextStyle()),
+                        child: Text(
+                          "SignUp",
+                          style: TextStyle(
+                              color: AppColor.cerulean,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
                       ),
                     ],
                   )

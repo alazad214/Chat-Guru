@@ -7,12 +7,11 @@ import 'package:get/get.dart';
 import 'package:random_string/random_string.dart';
 
 class AuthController extends GetxController {
-  RxString name = RxString("");
-  RxString email = RxString("");
-  RxString password = RxString("");
-  RxString confirmpassword = RxString("");
+  RxString name = RxString(' ');
+  RxString email = RxString(' ');
+  RxString password = RxString(' ');
+  RxString confirmpassword = RxString(' ');
   String id = randomAlphaNumeric(10);
-
   final auth = FirebaseAuth.instance;
   final currentuser = FirebaseAuth.instance.currentUser;
 
