@@ -1,15 +1,13 @@
-import 'package:chatguru/auth/register.dart';
+import 'package:chatguru/app/auth/signup_screen.dart';
 import 'package:chatguru/controller/auth_controller.dart';
+import 'package:chatguru/style/textfiled_style.dart';
+import 'package:chatguru/style/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../widgets/custom_font1.dart';
-import '../widgets/custom_textfield.dart';
-
-class Forgetpass extends StatelessWidget {
-   Forgetpass({super.key});
-  final controller=Get.put(AuthController());
+class ForgetScreen extends StatelessWidget {
+  ForgetScreen({super.key});
+  final controller = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,17 +24,11 @@ class Forgetpass extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 60.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Center(
-                      child: CustomFont1(
-                    text: "Password recovery",
-                  )),
-                  const CustomFont1(
-                    text: "Enter your email and send email to your account",
-                    fontsize: 16.0,
-                    color: Colors.white70,
-                    fontweight: FontWeight.normal,
-                  ),
+                  Text('Password recovery', style: head2TextStyle()),
+                  Text('Enter your email and send email to your account',
+                      style: head3TextStyle()),
                   Container(
                     padding: const EdgeInsets.all(20.0),
                     child: Material(
@@ -48,10 +40,11 @@ class Forgetpass extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomTextfield(
-                              hinttext: "Enter recovery email",
-                              onchanged: (email) {
-                                controller.email.value=email;
+                            TextFormField(
+                              decoration: appInputDecoretion(
+                                  'Enter your email', Icons.email),
+                              onChanged: (email) {
+                                controller.email.value = email;
                               },
                             ),
                             Container(
@@ -88,7 +81,7 @@ class Forgetpass extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "You have an no account?  ",
+                        "You have an no account? ",
                         style: TextStyle(color: Colors.black, fontSize: 15),
                       ),
                       InkWell(
@@ -96,7 +89,7 @@ class Forgetpass extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Register()));
+                                  builder: (context) => SignupScreen()));
                         },
                         child: const Text(
                           "Register",

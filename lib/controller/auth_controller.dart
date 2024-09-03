@@ -1,9 +1,8 @@
-import 'package:chatguru/auth/login.dart';
-import 'package:chatguru/pages/home.dart';
+import 'package:chatguru/app/auth/signin_screen.dart';
+import 'package:chatguru/app/home/home.dart';
 import 'package:chatguru/services/sharedprefeHelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:get/get.dart';
 import 'package:random_string/random_string.dart';
 
@@ -17,18 +16,17 @@ class AuthController extends GetxController {
   final auth = FirebaseAuth.instance;
   final currentuser = FirebaseAuth.instance.currentUser;
 
-  Future<void> Register() async {
+  register() async {
     if (password != confirmpassword) {
       return;
     }
     try {
-   await auth
+      await auth
           .createUserWithEmailAndPassword(
               email: email.value, password: password.value)
           .then((value) {
         if (value.user != null) {
-          Get.offAll(() => Home());
-
+          Get.offAll(() => HomeScreen());
         }
       });
       Map<String, dynamic> userInfo = {
@@ -37,17 +35,13 @@ class AuthController extends GetxController {
         "User name": email.value.replaceAll("@gmail.com", ""),
         "ID": id,
       };
-   await FirebaseFirestore.instance
-       .collection("users")
-       .add(userInfo);
+      await FirebaseFirestore.instance.collection("users").add(userInfo);
 
       await Sharedprefehelper().saveUserID(id);
       await Sharedprefehelper().saveUserName(name.value);
       await Sharedprefehelper().saveUserEmail(email.value);
       await Sharedprefehelper().saveUserDisplayName(email.value);
-    } on FirebaseAuthException catch (error) {
-
-    }
+    } on FirebaseAuthException catch (error) {}
   }
 
   //LOG IN FUNCTIONALITY----->
@@ -59,34 +53,26 @@ class AuthController extends GetxController {
               email: email.value, password: password.value)
           .then((value) {
         if (value.user != null) {
-          Get.offAll(Home());
+          Get.offAll(HomeScreen());
         }
       });
-    } on FirebaseAuthException catch (error) {
-
-    }
+    } on FirebaseAuthException catch (error) {}
   }
 
   //LOG OUT FUNCTIONALITY----->
-  Future signOut() async {
+  signOut() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
       await auth.signOut().then((value) {
-        Get.offAll(Login());
-
+        Get.offAll(SigninScreen());
       });
-    } on FirebaseAuthException catch (error) {
-
-    }
+    } on FirebaseAuthException catch (error) {}
   }
 
 //FORGET PASSWORD FUNCTIONALITY----->
   forgetPassword() async {
     try {
       await auth.sendPasswordResetEmail(email: email.value);
-
-    } on FirebaseAuthException catch (error) {
-
-    }
+    } on FirebaseAuthException catch (error) {}
   }
 }

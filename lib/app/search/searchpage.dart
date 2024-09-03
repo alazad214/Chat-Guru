@@ -1,9 +1,7 @@
-import 'package:chatguru/widgets/custom_searchbar.dart';
-import 'package:chatguru/widgets/shimer.dart';
+import 'package:chatguru/widgets/shimer_effect.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controller/search_controller.dart';
-import '../widgets/custom_font1.dart';
+import '../../controller/search_controller.dart';
 
 class Searchpage extends StatelessWidget {
   Searchpage({super.key});

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../pages/chatpage.dart';
+import '../app/chat/chatpage.dart';
+
+
 
 class ChatItem extends StatelessWidget {
   const ChatItem({super.key});
@@ -12,7 +14,7 @@ class ChatItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const Chatpage()));
+                builder: (context) =>  Chatpage()));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(

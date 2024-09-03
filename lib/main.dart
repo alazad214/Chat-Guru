@@ -1,10 +1,11 @@
-import 'package:chatguru/pages/home.dart';
+import 'package:chatguru/app/home/home.dart';
+import 'package:chatguru/app/onboading/splash.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'auth/login.dart';
+import 'app/auth/signin_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -20,11 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
     return GetMaterialApp(
-      title: 'Chat App',
-      debugShowCheckedModeBanner: false,
-      home: user == null ? Login() :  Home(),
-    );
+        title: 'ChatGuru', debugShowCheckedModeBanner: false, home: Splash());
   }
 }

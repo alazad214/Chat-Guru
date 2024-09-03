@@ -1,13 +1,12 @@
+import 'package:chatguru/app/auth/signin_screen.dart';
 import 'package:chatguru/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../style/textfiled_style.dart';
+import '../../style/text_style.dart';
 
-import '../widgets/custom_font1.dart';
-import '../widgets/custom_textfield.dart';
-import 'login.dart';
-
-class Register extends StatelessWidget {
-  Register({super.key});
+class SignupScreen extends StatelessWidget {
+  SignupScreen({super.key});
   final controller = Get.put(AuthController());
 
   @override
@@ -27,16 +26,8 @@ class Register extends StatelessWidget {
               padding: const EdgeInsets.only(top: 60.0),
               child: Column(
                 children: [
-                  const Center(
-                      child: CustomFont1(
-                    text: "SignUp",
-                  )),
-                  const CustomFont1(
-                    text: "Create a new account!",
-                    fontsize: 16.0,
-                    color: Colors.white70,
-                    fontweight: FontWeight.normal,
-                  ),
+                  Text('SignUp', style: head2TextStyle()),
+                  Text('Create a new account!', style: head3TextStyle()),
                   Container(
                     padding: const EdgeInsets.all(20.0),
                     child: Material(
@@ -48,32 +39,32 @@ class Register extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomTextfield(
-                              hinttext: "Enter name",
-                              icon: Icons.drive_file_rename_outline_sharp,
-                              onchanged: (name) {
+                            TextFormField(
+                              decoration: appInputDecoretion('Name',
+                                  Icons.drive_file_rename_outline_sharp),
+                              onChanged: (name) {
                                 controller.name.value = name;
                               },
                             ),
-                            CustomTextfield(
-                              hinttext: "Enter email",
-                              onchanged: (email) {
+                            TextFormField(
+                              decoration: appInputDecoretion('Email',
+                                  Icons.drive_file_rename_outline_sharp),
+                              onChanged: (email) {
                                 controller.email.value = email;
                               },
                             ),
-                            CustomTextfield(
-                              hinttext: "Enter password",
-                              icon: Icons.remove_red_eye,
-                              issecured: true,
-                              onchanged: (password) {
+                            TextFormField(
+                              decoration: appInputDecoretion(
+                                  'Password', Icons.remove_red_eye),
+                              obscureText: true,
+                              onChanged: (password) {
                                 controller.password.value = password;
                               },
                             ),
-                            CustomTextfield(
-                              hinttext: "Confirm password",
-                              icon: Icons.remove_red_eye,
-                              issecured: true,
-                              onchanged: (confirmpassword) {
+                            TextFormField(
+                              decoration: appInputDecoretion(
+                                  'Confirm password', Icons.remove_red_eye),
+                              onChanged: (confirmpassword) {
                                 controller.confirmpassword.value =
                                     confirmpassword;
                               },
@@ -83,7 +74,7 @@ class Register extends StatelessWidget {
                               alignment: Alignment.center,
                               child: InkWell(
                                 onTap: () {
-                                  controller.Register();
+                                  controller.register();
                                 },
                                 child: Container(
                                     width: 150,
@@ -117,8 +108,10 @@ class Register extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Login()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SigninScreen()));
                         },
                         child: const Text(
                           "LogIn",

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({
+class AppSearchbar extends StatelessWidget {
+  const AppSearchbar({
     super.key,
     this.ontap,
   });
@@ -13,14 +13,14 @@ class CustomSearchBar extends StatelessWidget {
       onTap: ontap,
       child: Container(
         clipBehavior: Clip.antiAlias,
-       height: 50.0,
+        height: 50.0,
         margin: const EdgeInsets.symmetric(horizontal: 15),
         padding: const EdgeInsets.only(right: 15),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8.0),
             border: Border.all(color: Colors.black45, width: 0.3)),
-        child:  Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
@@ -28,11 +28,11 @@ class CustomSearchBar extends StatelessWidget {
               height: 50.0,
               decoration: const BoxDecoration(
                 color: Colors.teal,
-
               ),
               child: const Icon(Icons.search),
             ),
-            const Text("Search"), ],
+            const Text("Search"),
+          ],
         ),
       ),
     );
