@@ -2,23 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../app/chat/chatpage.dart';
 
-
-
 class ChatItem extends StatelessWidget {
   const ChatItem({super.key});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>  Chatpage()));
+            context, MaterialPageRoute(builder: (context) => Chatpage()));
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 10.0, vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7),
         child: Row(
           children: [
             ClipRRect(
@@ -36,7 +31,6 @@ class ChatItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 const Text(
                   "Al Azad",
                   style: TextStyle(

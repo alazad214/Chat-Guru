@@ -1,4 +1,6 @@
+import 'package:chatguru/app/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'drawer_tile.dart';
 
 class Appdrawer extends StatelessWidget {
@@ -7,7 +9,9 @@ class Appdrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
     return Drawer(
+      width: w / 1.5,
       child: ListView(
         children: [
           Container(
@@ -16,16 +20,12 @@ class Appdrawer extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 100,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
-                  child: Image.asset(
-                    'assets/images/alazad.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(height: 10),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(() => ProfileScreen());
+                    },
+                    child: Text("Prifile")),
+                SizedBox(height: 10),
                 Text(
                   ".........",
                   style: TextStyle(

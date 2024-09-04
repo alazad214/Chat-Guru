@@ -20,6 +20,7 @@ class AuthController extends GetxController {
   final auth = FirebaseAuth.instance;
   final currentuser = FirebaseAuth.instance.currentUser;
 
+
   //SIGN UP FUNCTIONALITY...
   register() async {
     if (password != confirmpassword) {

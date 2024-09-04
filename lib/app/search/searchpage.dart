@@ -1,20 +1,19 @@
-import 'package:chatguru/widgets/shimer_effect.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controller/search_controller.dart';
+import '../../utils/app_color.dart';
+import '../../widgets/shimer_effect.dart';
 
 class Searchpage extends StatelessWidget {
-  Searchpage({super.key});
-  final searchController = Get.put(UserController());
+  final searchController = Get.put(UserSearchController());
 
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.teal,
+      backgroundColor: AppColor.cerulean,
       appBar: AppBar(
-          backgroundColor: Colors.teal,
+          backgroundColor: AppColor.cerulean,
           toolbarHeight: 60.0,
           titleSpacing: 0.0,
           leading: IconButton(
@@ -23,7 +22,7 @@ class Searchpage extends StatelessWidget {
                 Icons.arrow_back,
                 color: Colors.white,
               )),
-          title: const Text(
+          title: Text(
             "search and start new a chat",
             style: TextStyle(color: Colors.white, fontSize: 17.0),
           )),
@@ -48,12 +47,13 @@ class Searchpage extends StatelessWidget {
                       child: TextField(
                         decoration: const InputDecoration(
                           hintText: 'Search for users...',
+                          hintStyle: TextStyle(color: Colors.grey),
                           prefixIcon: Icon(
                             Icons.search,
                           ),
                         ),
                         onChanged: (query) {
-
+                          searchController.searchUsers(query);
                         },
                       ),
                     ),
@@ -63,8 +63,7 @@ class Searchpage extends StatelessWidget {
                           return const Center(child: Shimmer());
                         }
                         if (!searchController.isSearchActive.value) {
-                          return const Center(
-                              child: Shimmer());
+                          return const Center(child: Text('Search users'));
                         }
                         if (searchController.filteredUsers.isEmpty) {
                           return const Center(child: Text('No users found.'));
@@ -72,11 +71,18 @@ class Searchpage extends StatelessWidget {
                         return ListView.builder(
                           itemCount: searchController.filteredUsers.length,
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(searchController.filteredUsers[index]
-                                  ['Name']),
-                              subtitle: Text(searchController
-                                  .filteredUsers[index]['Email']),
+                            final user = searchController.filteredUsers[index];
+                            return InkWell(
+                              onTap: () {},
+                              child: Card(
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    child: Image.network(user['Photos']),
+                                  ),
+                                  title: Text(user['Name']),
+                                  subtitle: Text(user['Email']),
+                                ),
+                              ),
                             );
                           },
                         );

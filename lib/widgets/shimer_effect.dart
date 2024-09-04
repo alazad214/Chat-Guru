@@ -26,7 +26,7 @@ class Shimmer extends StatelessWidget {
                   clipBehavior: Clip.antiAlias,
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
-                  child: Lottie.asset("assets/anim/shimmer.json",
+                  child: Lottie.asset("assets/animations/shimmer.json",
                       fit: BoxFit.cover),
                 ),
                 Column(
@@ -41,7 +41,7 @@ class Shimmer extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      child: Lottie.asset("assets/anim/shimmer.json",
+                      child: Lottie.asset("assets/animations/shimmer.json",
                           fit: BoxFit.cover),
                     ),
                     Container(
@@ -51,7 +51,7 @@ class Shimmer extends StatelessWidget {
                       margin: EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0)),
-                      child: Lottie.asset("assets/anim/shimmer.json",
+                      child: Lottie.asset("assets/animations/shimmer.json",
                           fit: BoxFit.cover),
                     ),
                   ],
