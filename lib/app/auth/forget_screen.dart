@@ -1,7 +1,9 @@
+import 'package:chatguru/app/auth/signin_screen.dart';
 import 'package:chatguru/app/auth/signup_screen.dart';
 import 'package:chatguru/controller/auth_controller.dart';
 import 'package:chatguru/style/textfiled_style.dart';
 import 'package:chatguru/style/text_style.dart';
+import 'package:chatguru/style/toast_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,8 +38,10 @@ class ForgetScreen extends StatelessWidget {
                   children: [
                     Text('Password recovery',
                         textAlign: TextAlign.center, style: head2TextStyle()),
-                    Text('Enter your email and send email to your account',
-                        textAlign: TextAlign.center, style: head3TextStyle()),
+                    Text(
+                        'Provide your email and reset your password by clicking on a link in the message sent to your email.',
+                        textAlign: TextAlign.center,
+                        style: head3TextStyle()),
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       child: Material(
@@ -62,6 +66,8 @@ class ForgetScreen extends StatelessWidget {
                                 ontap: () {
                                   if (formKey.currentState!.validate()) {
                                     controller.forgetPassword();
+                                    Get.offAll(() => SigninScreen());
+                                    SuccessToast('Send a email');
                                   }
                                 },
                               ),

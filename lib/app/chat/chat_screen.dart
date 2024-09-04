@@ -1,60 +1,57 @@
 import 'package:chatguru/controller/auth_controller.dart';
+import 'package:chatguru/style/text_style.dart';
+import 'package:chatguru/style/toast_style.dart';
+import 'package:chatguru/utils/app_color.dart';
+import 'package:chatguru/widgets/send_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ChatPage extends StatefulWidget {
+class ChatScreen extends StatelessWidget {
   final String chatRoomId;
   final String recipientName;
   final String recipientEmail;
 
-  ChatPage({
+  ChatScreen({
     Key? key,
     required this.chatRoomId,
     required this.recipientName,
     required this.recipientEmail,
   }) : super(key: key);
 
-  @override
-  _ChatPageState createState() => _ChatPageState();
-}
-
-class _ChatPageState extends State<ChatPage> {
-  final TextEditingController _messageController = TextEditingController();
-  final AuthController authController = Get.put(AuthController());
+  final _messageController = TextEditingController();
+  final authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
     final String currentUserEmail =
-        authController.currentuser?.email ?? 'unknown@example.com';
+        authController.currentuser!.email ?? 'unknown@example.com';
 
     return Scaffold(
-      backgroundColor: Colors.teal,
       appBar: AppBar(
-        backgroundColor: Colors.teal,
+        backgroundColor: AppColor.primary,
         toolbarHeight: 60,
         title: Text(
-          "Chat with ${widget.recipientName}",
-          style: const TextStyle(
-              color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+          "Chat with $recipientName",
+          style: head3TextStyle(),
         ),
       ),
       body: SafeArea(
         child: Column(
           children: [
             Expanded(
-              child: StreamBuilder<QuerySnapshot>(
+              child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('chatroom')
-                    .doc(widget.chatRoomId)
+                    .doc(chatRoomId)
                     .collection('messages')
                     .orderBy('timestamp', descending: true)
                     .snapshots(),
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
                   }
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  if (snapshot.data!.docs.isEmpty) {
                     return const Center(child: Text('No messages yet.'));
                   }
                   final messages = snapshot.data!.docs;
@@ -62,8 +59,7 @@ class _ChatPageState extends State<ChatPage> {
                     reverse: true,
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
-                      final message =
-                          messages[index].data() as Map<String, dynamic>;
+                      final message = messages[index].data();
                       final messageText = message['text'] ?? '';
                       final messageSender = message['sender'] ?? '';
 
@@ -89,22 +85,22 @@ class _ChatPageState extends State<ChatPage> {
                                 : CrossAxisAlignment.start,
                             children: [
                               Text(
-                                messageSender,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: isCurrentUser
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
                                 messageText,
                                 style: TextStyle(
-                                  color: isCurrentUser
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
+                                    color: isCurrentUser
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontSize: 18.0),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                messageSender,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isCurrentUser
+                                        ? Colors.white
+                                        : Colors.black26,
+                                    fontSize: 10.0),
                               ),
                             ],
                           ),
@@ -115,46 +111,14 @@ class _ChatPageState extends State<ChatPage> {
                 },
               ),
             ),
-            Container(
-              padding: const EdgeInsets.only(top: 10, bottom: 10, left: 5),
-              decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  blurRadius: 10.0,
-                  offset: const Offset(0, 3),
-                  spreadRadius: 2.0,
-                ),
-              ]),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.add, size: 30),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.emoji_emotions_outlined, size: 25),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _messageController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Type something",
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            sendMessage(
-                                currentUserEmail, widget.recipientEmail);
-                          },
-                          icon: const Icon(Icons.send, size: 28),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+
+            ///Send Button...
+            SendButton(
+              controller: _messageController,
+              onPressed: () {
+                sendMessage(currentUserEmail, recipientEmail);
+              },
+            )
           ],
         ),
       ),
@@ -167,7 +131,7 @@ class _ChatPageState extends State<ChatPage> {
       try {
         await FirebaseFirestore.instance
             .collection('chatroom')
-            .doc(widget.chatRoomId)
+            .doc(chatRoomId)
             .collection('messages')
             .add({
           'text': messageText,
@@ -177,7 +141,7 @@ class _ChatPageState extends State<ChatPage> {
         });
         _messageController.clear();
       } catch (e) {
-        print('Error sending message: $e');
+        ErrorToast('Unable to send message');
       }
     }
   }

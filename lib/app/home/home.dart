@@ -7,6 +7,7 @@ import 'package:chatguru/widgets/app_drawer.dart';
 import 'package:chatguru/widgets/popup_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../drawer/policy_screen.dart';
 import '../../widgets/app_searchbar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,6 +15,7 @@ class HomeScreen extends StatelessWidget {
 
   ///Controller...
   final controller = Get.put(AuthController());
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +24,25 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: AppColor.primary,
+        key: scaffoldKey,
         appBar: AppBar(
           backgroundColor: AppColor.primary,
+          leading: IconButton(
+              onPressed: () {
+                scaffoldKey.currentState!.openDrawer();
+              },
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+                size: 30,
+              )),
+          titleSpacing: 0,
           title: Text('Message', style: head2TextStyle()),
           actions: [
             PopupMenu(
-              children: [Text("LOG OUT")],
+              children: [Text("Policy")],
               ontap: () {
-                controller.signOut();
+                Get.to(() => PolicyScreen());
               },
             )
           ],
@@ -61,6 +74,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-        drawer: Appdrawer());
+        drawer: AppDrawer());
   }
 }

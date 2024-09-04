@@ -2,7 +2,7 @@ import 'package:chatguru/controller/auth_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'chatpage.dart';
+import 'chat_screen.dart';
 
 class ChatList extends StatelessWidget {
   ChatList({super.key});
@@ -21,6 +21,9 @@ class ChatList extends StatelessWidget {
           .where('users', arrayContains: currentUserEmail)
           .snapshots(),
       builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
         if (snapshot.data!.docs.isEmpty) {
           return Center(child: Text("Find and join your friends easily."));
         }
@@ -41,7 +44,7 @@ class ChatList extends StatelessWidget {
                 title: Text(recipientName),
                 subtitle: Text(recipientEmail),
                 onTap: () {
-                  Get.to(() => ChatPage(
+                  Get.to(() => ChatScreen(
                         chatRoomId: chatRoomId,
                         recipientName: recipientName,
                         recipientEmail: recipientEmail,

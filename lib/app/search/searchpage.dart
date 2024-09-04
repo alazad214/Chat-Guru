@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controller/search_controller.dart';
 import '../../utils/app_color.dart';
-import '../chat/chatpage.dart';
+import '../chat/chat_screen.dart';
 
 class SearchPage extends StatelessWidget {
   final UserSearchController searchController = Get.put(UserSearchController());
@@ -77,7 +77,7 @@ class SearchPage extends StatelessWidget {
                                 String chatRoomId = await searchController
                                     .createChatRoom(user['Email']);
                                 // Navigate to chat page
-                                Get.to(() => ChatPage(
+                                Get.to(() => ChatScreen(
                                   chatRoomId: chatRoomId,
                                   recipientName: user['UserName'],
                                   recipientEmail: user['Email'],
