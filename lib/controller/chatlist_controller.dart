@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'auth_controller.dart';
 
 class ChatListController extends GetxController {
-  final  authController = Get.put(AuthController());
+  final authController = Get.put(AuthController());
   var chatRooms = <Map<String, dynamic>>[].obs;
   var isLoading = true.obs;
 

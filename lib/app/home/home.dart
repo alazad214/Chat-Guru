@@ -1,26 +1,29 @@
+import 'package:chatguru/app/chat/chat_list.dart';
 import 'package:chatguru/controller/auth_controller.dart';
 import 'package:chatguru/app/search/searchpage.dart';
 import 'package:chatguru/style/text_style.dart';
+import 'package:chatguru/utils/app_color.dart';
 import 'package:chatguru/widgets/app_drawer.dart';
 import 'package:chatguru/widgets/popup_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../widgets/chat_item.dart';
 import '../../widgets/app_searchbar.dart';
-import '../chat/chatlist_pages.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
+
+  ///Controller...
   final controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
+    ///Responsive with MediaQuery...
     final h = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        backgroundColor: Colors.teal,
+        backgroundColor: AppColor.primary,
         appBar: AppBar(
-          backgroundColor: Colors.teal,
-          toolbarHeight: 60.0,
+          backgroundColor: AppColor.primary,
           title: Text('Message', style: head2TextStyle()),
           actions: [
             PopupMenu(
@@ -49,27 +52,8 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       ///App Search Bar...
                       AppSearchbar(ontap: () => Get.to(() => SearchPage())),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Get.to(() => ChatListPage());
-                          },
-                          child: Text("Go to chatLIst")),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
-                      ChatItem(),
+                      SizedBox(height: 30.0),
+                      ChatList()
                     ],
                   ),
                 )
