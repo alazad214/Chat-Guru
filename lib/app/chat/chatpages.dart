@@ -1,19 +1,18 @@
-import 'package:chatguru/controller/auth_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'chatpage.dart';
 
-class ChatPage extends StatefulWidget {
+class Chatpages extends StatefulWidget {
   final String chatRoomId;
   final String recipientName;
   final String recipientEmail;
 
-  ChatPage({
-    Key? key,
-    required this.chatRoomId,
-    required this.recipientName,
-    required this.recipientEmail,
-  }) : super(key: key);
+  Chatpages(
+      {Key? key,
+      required this.chatRoomId,
+      required this.recipientName,
+      required this.recipientEmail})
+      : super(key: key);
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -21,13 +20,10 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
-  final AuthController authController = Get.put(AuthController());
+  final String currentUser = 'azad'; // Replace with dynamic current user name
 
   @override
   Widget build(BuildContext context) {
-    final String currentUserEmail =
-        authController.currentuser?.email ?? 'unknown@example.com';
-
     return Scaffold(
       backgroundColor: Colors.teal,
       appBar: AppBar(
@@ -67,7 +63,7 @@ class _ChatPageState extends State<ChatPage> {
                       final messageText = message['text'] ?? '';
                       final messageSender = message['sender'] ?? '';
 
-                      final isCurrentUser = messageSender == currentUserEmail;
+                      final isCurrentUser = messageSender == currentUser;
 
                       return Align(
                         alignment: isCurrentUser
@@ -144,8 +140,7 @@ class _ChatPageState extends State<ChatPage> {
                         hintText: "Type something",
                         suffixIcon: IconButton(
                           onPressed: () {
-                            sendMessage(
-                                currentUserEmail, widget.recipientEmail);
+                            sendMessage();
                           },
                           icon: const Icon(Icons.send, size: 28),
                         ),
@@ -161,7 +156,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  void sendMessage(String senderEmail, String receiverEmail) async {
+  void sendMessage() async {
     final messageText = _messageController.text.trim();
     if (messageText.isNotEmpty) {
       try {
@@ -171,8 +166,7 @@ class _ChatPageState extends State<ChatPage> {
             .collection('messages')
             .add({
           'text': messageText,
-          'sender': senderEmail,
-          'receiver': receiverEmail,
+          'sender': currentUser,
           'timestamp': FieldValue.serverTimestamp(),
         });
         _messageController.clear();

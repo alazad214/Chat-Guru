@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widgets/chat_item.dart';
 import '../../widgets/app_searchbar.dart';
+import '../chat/chatlist_pages.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -47,10 +48,15 @@ class HomeScreen extends StatelessWidget {
                   child: ListView(
                     children: [
                       ///App Search Bar...
-                      AppSearchbar(ontap: () => Get.to(() => Searchpage())),
+                      AppSearchbar(ontap: () => Get.to(() => SearchPage())),
                       SizedBox(
                         height: 30.0,
                       ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Get.to(() => ChatListPage());
+                          },
+                          child: Text("Go to chatLIst")),
                       ChatItem(),
                       ChatItem(),
                       ChatItem(),

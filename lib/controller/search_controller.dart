@@ -18,12 +18,15 @@ class UserSearchController extends GetxController {
   fetchUsers() async {
     isLoading(true);
     try {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users').get();
-      String currentUserEmail = authController.currentuser?.email?.toLowerCase() ?? '';
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('users').get();
+      String currentUserEmail =
+          authController.currentuser?.email?.toLowerCase() ?? '';
 
       List<Map<String, dynamic>> users = snapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)
-          .where((user) => user['Email']?.toString().toLowerCase() != currentUserEmail)
+          .where((user) =>
+              user['Email']?.toString().toLowerCase() != currentUserEmail)
           .toList();
 
       allUsers.assignAll(users);
@@ -34,20 +37,47 @@ class UserSearchController extends GetxController {
     }
   }
 
-  searchUsers(String query) {
+  void searchUsers(String query) {
+    isSearchActive(query.isNotEmpty);
     if (query.isEmpty) {
-      isSearchActive(false);
-      filteredUsers.clear();
+      filteredUsers.assignAll([]);
     } else {
-      isSearchActive(true);
-      String currentUserEmail = authController.currentuser?.email?.toLowerCase() ?? '';
-      filteredUsers.value = allUsers.where((user) {
-        final name = user['UserName']?.toString().toLowerCase() ?? '';
-        final email = user['Email']?.toString().toLowerCase() ?? '';
-        final searchQuery = query.toLowerCase();
-        return (name.contains(searchQuery) || email.contains(searchQuery)) &&
-            email != currentUserEmail;
-      }).toList();
+      query = query.toLowerCase();
+      List<Map<String, dynamic>> results = allUsers
+          .where((user) =>
+              user['UserName']?.toString().toLowerCase().contains(query) ??
+              false ||
+                  user['Email']!.toString().toLowerCase().contains(query) ??
+              false)
+          .toList();
+      filteredUsers.assignAll(results);
     }
+  }
+
+  Future<String> createChatRoom(String recipientEmail) async {
+    String chatRoomId =
+        getChatRoomId(authController.currentuser?.email, recipientEmail);
+    final snapshot = await FirebaseFirestore.instance
+        .collection('chatroom')
+        .doc(chatRoomId)
+        .get();
+    if (!snapshot.exists) {
+      await FirebaseFirestore.instance
+          .collection('chatroom')
+          .doc(chatRoomId)
+          .set({
+        'users': [authController.currentuser?.email, recipientEmail],
+      });
+    }
+    return chatRoomId;
+  }
+
+  String getChatRoomId(String? userEmail, String recipientEmail) {
+    List<String?> emails = [
+      userEmail?.toLowerCase(),
+      recipientEmail.toLowerCase()
+    ];
+    emails.sort();
+    return emails.join('_');
   }
 }
