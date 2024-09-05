@@ -14,5 +14,12 @@ TextStyle head2TextStyle() {
 }
 
 TextStyle head1TextStyle() {
-  return const TextStyle(color: Colors.blue, fontSize: 16.0);
+  return TextStyle(
+    color: Colors.blue,
+    fontSize: 16.0,
+  );
+}
+
+TextStyle headTextStyle() {
+  return const TextStyle(color: Colors.grey, fontSize: 12.0);
 }

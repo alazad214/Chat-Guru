@@ -24,10 +24,12 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     final String currentUserEmail =
         authController.currentuser!.email ?? 'unknown@example.com';
 
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: AppBar(
         backgroundColor: AppColor.primary,
         toolbarHeight: 60,
@@ -36,91 +38,90 @@ class ChatScreen extends StatelessWidget {
           style: head3TextStyle(),
         ),
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('chatroom')
-                    .doc(chatRoomId)
-                    .collection('messages')
-                    .orderBy('timestamp', descending: true)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.data!.docs.isEmpty) {
-                    return const Center(child: Text('No messages yet.'));
-                  }
-                  final messages = snapshot.data!.docs;
-                  return ListView.builder(
-                    reverse: true,
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[index].data();
-                      final messageText = message['text'] ?? '';
-                      final messageSender = message['sender'] ?? '';
+      body: Column(
+        children: [
+          Expanded(
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('chatroom')
+                  .doc(chatRoomId)
+                  .collection('messages')
+                  .orderBy('timestamp', descending: true)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.data!.docs.isEmpty) {
+                  return const Center(child: Text('No messages yet.'));
+                }
+                final messages = snapshot.data!.docs;
+                return ListView.builder(
+                  reverse: true,
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    final message = messages[index].data();
+                    final messageText = message['text'] ?? '';
+                    final messageSender = message['sender'] ?? '';
 
-                      final isCurrentUser = messageSender == currentUserEmail;
+                    final isCurrentUser = messageSender == currentUserEmail;
 
-                      return Align(
-                        alignment: isCurrentUser
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 10.0),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 15.0),
-                          decoration: BoxDecoration(
-                            color:
-                                isCurrentUser ? Colors.blue : Colors.grey[300],
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: isCurrentUser
-                                ? CrossAxisAlignment.end
-                                : CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                messageText,
-                                style: TextStyle(
-                                    color: isCurrentUser
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontSize: 18.0),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                messageSender,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: isCurrentUser
-                                        ? Colors.white
-                                        : Colors.black26,
-                                    fontSize: 10.0),
-                              ),
-                            ],
-                          ),
+                    return Align(
+                      alignment: isCurrentUser
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Container(
+                        width: screenSize.width / 2,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 15.0),
+                        decoration: BoxDecoration(
+                          color: isCurrentUser ? Colors.blue : Colors.green,
+                          border: Border.all(width: 0.2),
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-
-            ///Send Button...
-            SendButton(
-              controller: _messageController,
-              onPressed: () {
-                sendMessage(currentUserEmail, recipientEmail);
+                        child: Column(
+                          crossAxisAlignment: isCurrentUser
+                              ? CrossAxisAlignment.end
+                              : CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              messageText,
+                              style: TextStyle(
+                                  color: isCurrentUser
+                                      ? Colors.white
+                                      : Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0),
+                            ),
+                            Text(
+                              messageSender,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: isCurrentUser
+                                      ? Colors.white
+                                      : Colors.white54,
+                                  fontSize: 10.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
-            )
-          ],
-        ),
+            ),
+          ),
+
+          ///Send Button...
+          SendButton(
+            controller: _messageController,
+            onPressed: () {
+              sendMessage(currentUserEmail, recipientEmail);
+            },
+          )
+        ],
       ),
     );
   }

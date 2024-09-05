@@ -1,6 +1,7 @@
 import 'package:chatguru/app/chat/chat_list.dart';
 import 'package:chatguru/controller/auth_controller.dart';
 import 'package:chatguru/app/search/searchpage.dart';
+import 'package:chatguru/style/appbg.dart';
 import 'package:chatguru/style/text_style.dart';
 import 'package:chatguru/utils/app_color.dart';
 import 'package:chatguru/widgets/popup_menu.dart';
@@ -49,30 +50,30 @@ class HomeScreen extends StatelessWidget {
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                  height: h / 1,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0))),
-                  child: ListView(
-                    children: [
-                      ///App Search Bar...
-                      AppSearchbar(ontap: () => Get.to(() => SearchPage())),
-                      SizedBox(height: 30.0),
-                      ChatList()
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
+              child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 15.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                height: h / 1,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Colors.blue.shade50,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0))),
+                child: ListView(
+                  children: [
+                    ///App Search Bar...
+                    AppSearchbar(ontap: () => Get.to(() => SearchPage())),
+                    SizedBox(height: 30.0),
+                    ChatList()
+                  ],
+                ),
+              )
+            ],
+          )),
         ),
         drawer: AppDrawer());
   }
