@@ -3,6 +3,7 @@ import 'package:chatguru/app/auth/signup_screen.dart';
 import 'package:chatguru/controller/auth_controller.dart';
 import 'package:chatguru/style/textfiled_style.dart';
 import 'package:chatguru/style/text_style.dart';
+import 'package:chatguru/style/toast_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../utils/app_color.dart';
@@ -74,6 +75,7 @@ class SigninScreen extends StatelessWidget {
                                 ontap: () {
                                   if (formKey.currentState!.validate()) {
                                     controller.login();
+                                    SuccessToast('Succeessfully Sign In');
                                   }
                                 },
                               ),

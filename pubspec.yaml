@@ -47,6 +47,7 @@ dependencies:
   fluttertoast: ^8.2.8
   iconsax: ^0.0.8
   flutter_animate: ^4.5.0
+  image_picker: ^1.1.2
 
 
 dev_dependencies:

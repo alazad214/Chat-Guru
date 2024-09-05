@@ -3,12 +3,12 @@ import 'package:chatguru/controller/auth_controller.dart';
 import 'package:chatguru/app/search/searchpage.dart';
 import 'package:chatguru/style/text_style.dart';
 import 'package:chatguru/utils/app_color.dart';
-import 'package:chatguru/widgets/app_drawer.dart';
 import 'package:chatguru/widgets/popup_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../drawer/policy_screen.dart';
 import '../../widgets/app_searchbar.dart';
+import '../drawer/app_drawer.dart';
+import '../drawer/policy_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});

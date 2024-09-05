@@ -1,15 +1,19 @@
 import 'package:chatguru/app/profile/profile_screen.dart';
+import 'package:chatguru/style/toast_style.dart';
 import 'package:chatguru/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import '../controller/auth_controller.dart';
-import '../drawer/policy_screen.dart';
-import 'drawer_tile.dart';
+
+import '../../controller/auth_controller.dart';
+import '../../controller/profile_controller.dart';
+import '../../widgets/drawer_tile.dart';
+import 'policy_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key});
   final controller = Get.put(AuthController());
+  final profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +48,7 @@ class AppDrawer extends StatelessWidget {
                   text: "Policy",
                   icon: Icons.policy_outlined,
                   ontap: () {
-                    Get.to(()=>PolicyScreen());
+                    Get.to(() => PolicyScreen());
                   },
                 ),
                 CustomDrawerTile(
@@ -52,6 +56,7 @@ class AppDrawer extends StatelessWidget {
                   icon: Icons.logout,
                   ontap: () {
                     controller.signOut();
+                    SuccessToast('Successfully Logout');
                   },
                 ),
               ],
@@ -66,15 +71,15 @@ class AppDrawer extends StatelessWidget {
   Widget ProfiledHeader(double h) {
     return UserAccountsDrawerHeader(
       accountName: Text(
-        "User Name",
+        profileController.name.value,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: h * 0.025,
         ),
       ),
-      accountEmail: Text("user@example.com"),
+      accountEmail: Text(profileController.email.value),
       currentAccountPicture: CircleAvatar(
-        backgroundImage: AssetImage('assets/images/profile_picture.png'),
+        backgroundImage: NetworkImage(profileController.userImage.value),
         backgroundColor: Colors.white,
       ),
       decoration: BoxDecoration(color: AppColor.primary),

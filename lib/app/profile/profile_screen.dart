@@ -1,6 +1,10 @@
 import 'package:chatguru/controller/profile_controller.dart';
+import 'package:chatguru/style/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
+
+import '../../utils/app_color.dart';
 
 class ProfileScreen extends StatelessWidget {
   final profileController = Get.put(ProfileController());
@@ -9,54 +13,64 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('My Profile'),
-          backgroundColor: Colors.blueAccent,
+          title: Text('My Profile', style: head3TextStyle()),
+          backgroundColor: AppColor.primary,
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              _buildProfileHeader(),
+              ProfileHeader(),
               _buildProfileInfo(),
               _buildContactInfo(),
-              _buildActionButtons(),
             ],
           ),
         ));
   }
 
-  Widget _buildProfileHeader() {
+  Widget ProfileHeader() {
     return Obx(() {
-      return Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 20),
-        decoration: BoxDecoration(
-          color: Colors.blueAccent,
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-        ),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage(profileController.userImage.value),
+      return Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            decoration: BoxDecoration(
+              color: AppColor.primary,
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
             ),
-            SizedBox(height: 10),
-            Text(
-              profileController.name.value,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.amberAccent,
+                  backgroundImage:
+                      NetworkImage(profileController.userImage.value),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  profileController.name.value,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {},
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Iconsax.edit, color: AppColor.primary, size: 20),
               ),
             ),
-            Text(
-              profileController.username.value,
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 18,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       );
     });
   }
@@ -88,6 +102,7 @@ class ProfileScreen extends StatelessWidget {
             ),
             SizedBox(height: 10),
             _buildInfoRow('Email', profileController.email.value),
+            _buildInfoRow('User Name', profileController.username.value),
             _buildInfoRow('User ID', profileController.userId.value),
           ],
         ),
@@ -147,57 +162,6 @@ class ProfileScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey[600],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActionButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          // Edit Profile Button
-          ElevatedButton(
-            onPressed: () {
-              // Implement edit profile functionality
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0), // Rounded corners
-              ),
-              elevation: 5, // Shadow effect
-            ),
-            child: Text(
-              'Edit Profile',
-              style: TextStyle(
-                fontSize: 16, // Font size
-                fontWeight: FontWeight.bold, // Font weight
-              ),
-            ),
-          ),
-          // Logout Button
-          ElevatedButton(
-            onPressed: () {
-              // Implement logout functionality
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0), // Rounded corners
-              ),
-              elevation: 5, // Shadow effect
-            ),
-            child: Text(
-              'Logout',
-              style: TextStyle(
-                fontSize: 16, // Font size
-                fontWeight: FontWeight.bold, // Font weight
-              ),
             ),
           ),
         ],
